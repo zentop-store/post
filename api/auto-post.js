@@ -1,6 +1,5 @@
-const fetch = require('node-fetch');
+const axios = require('axios');
 
-// Fungsi untuk mengirim pesan ke channel Discord
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
@@ -21,26 +20,20 @@ module.exports = async (req, res) => {
   };
 
   const headers = {
-    Authorization: `Bearer ${token}`,  // Gunakan Bearer untuk token akun
+    'Authorization': `Bot ${token}`,  // Gunakan 'Bot' untuk token bot
     'Content-Type': 'application/json'
   };
 
   try {
-    const response = await fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(payload)
-    });
+    const response = await axios.post(`https://discord.com/api/v9/channels/${channelId}/messages`, payload, { headers });
 
-    const responseBody = await response.text(); // Mendapatkan body respon untuk debugging
-
-    if (response.ok) {
-      res.status(200).json({ success: true, message: 'Pesan berhasil dikirim!' });
-    } else {
-      res.status(response.status).json({ success: false, message: `Gagal mengirim pesan: ${response.status}`, details: responseBody });
-    }
+    res.status(200).json({ success: true, message: 'Pesan berhasil dikirim!' });
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ success: false, message: 'Terjadi kesalahan server.' });
+    console.error('Error:', error.message);  // Menampilkan pesan kesalahan
+    res.status(error.response ? error.response.status : 500).json({
+      success: false,
+      message: `Gagal mengirim pesan: ${error.response ? error.response.status : 'Internal Server Error'}`,
+      details: error.response ? error.response.data : 'Tidak ada detail kesalahan'
+    });
   }
 };
