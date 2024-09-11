@@ -1,8 +1,12 @@
 {
-  "name": "discord-auto-post",
+  "name": "discord-api",
   "version": "1.0.0",
-  "description": "A Discord auto-post project",
+  "description": "Discord API Integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "axios": "^0.21.1"
   }
 }
