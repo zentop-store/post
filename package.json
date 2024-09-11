@@ -1,5 +1,8 @@
 {
+  "name": "discord-auto-post",
+  "version": "1.0.0",
+  "description": "A Discord auto-post project",
   "dependencies": {
-    "node-fetch": "^2.6.7" // versi terbaru sesuai kebutuhan
+    "node-fetch": "^2.6.7"
   }
 }
