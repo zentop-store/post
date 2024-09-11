@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 
+// Fungsi untuk mengirim pesan ke channel Discord
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
